@@ -196,6 +196,10 @@ namespace ariel{
                     }
 
                     AscendingIterator& operator++(){
+
+                        if( index == container.getContainer().size()){
+                             throw std::runtime_error("++ error: iterator already at end index");
+                        }
                         // Increment the index
                         index++;
                         return *this;
@@ -224,6 +228,11 @@ namespace ariel{
 
                     // Copy assignment operator
                     AscendingIterator& operator=(const AscendingIterator& other) {
+
+                        if(container.getContainer() != other.container.getContainer()){
+                            throw std::runtime_error("containers are not the same");
+                        }
+
                         if (this != &other) {
                             container = other.container;
                             index = other.index;
@@ -287,25 +296,27 @@ namespace ariel{
                    int operator*() {
                         
                         if(start_move){
-                           
-                            start_move = false;
                             return container.getContainer()[idx_start];
                         }
                         else{
-                            
-                            start_move = true;
                             return container.getContainer()[idx_end];
                         }
                     }
 
 
                     SideCrossIterator& operator++(){
+
+                        if( idx_start == container.getContainer().size() && idx_end == 0){
+                             throw std::runtime_error("++ error: iterator already at end index");
+                        }
                         
                         if(start_move){
-                            idx_end--;
+                            idx_start++;
+                            start_move = false;
                         }
                         else{
-                            idx_start++;
+                            idx_end--;
+                            start_move = true;
                         }
 
                         if(idx_end < idx_start){
@@ -345,6 +356,11 @@ namespace ariel{
 
                     // Copy assignment operator
                     SideCrossIterator& operator=(const SideCrossIterator& other) {
+
+                        if(container.getContainer() != other.container.getContainer()){
+                            throw std::runtime_error("containers are not the same");
+                        }
+
                         if (this != &other) {
                             container = other.container;
                             idx_start = other.idx_start;
@@ -408,6 +424,11 @@ namespace ariel{
 
 
                     PrimeIterator& operator++(){
+                        
+                        if( index == container.getPrimeContainer().size()){
+                             throw std::runtime_error("++ error: iterator already at end index");
+                        }
+
                         index++;
                         return *this;
                     }
@@ -434,6 +455,11 @@ namespace ariel{
 
                     // Copy assignment operator
                     PrimeIterator& operator=(const PrimeIterator& other) {
+
+                        if(container.getContainer() != other.container.getContainer()){
+                            throw std::runtime_error("containers are not the same");
+                        }
+
                         if (this != &other) {
                             container = other.container;
                             index = other.index;
