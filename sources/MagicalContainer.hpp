@@ -31,6 +31,11 @@ namespace ariel{
             }
 
             void addElement(int element){
+                
+                if(isPrime(element)){
+                    prime_container.push_back(&element);
+                }
+
                 for(size_t i = 0; i<container.size();i++){
                     if(container[i] == element){
                         return;
@@ -58,7 +63,7 @@ namespace ariel{
             }
 
             // return size of container
-            size_t size(){
+            int size(){
                 return container.size();
             }
 
@@ -90,11 +95,35 @@ namespace ariel{
                 return *this;
             }
 
+            bool static isPrime(int element){
+                        
+                if(element <= 1){
+                    return false;
+                }
 
-            
+                if(element == 2 || element == 3){
+                    return true;
+                }
+
+                for(int i=3 ; i<=sqrt(element) ; i++){
+                    if(element % i == 0){
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            vector<int*>& getPrimeContainer(){
+                return prime_container;
+            }
+
+ 
         private:
 
             vector<int> container;
+
+            vector<int*> prime_container;
 
 
         public:
@@ -136,7 +165,7 @@ namespace ariel{
                 private:
 
                     MagicalContainer& container;
-                    int index;
+                    size_t index;
 
                 public:
 
@@ -149,22 +178,21 @@ namespace ariel{
                     AscendingIterator(const AscendingIterator& copy_container) : container(copy_container.container) , index(copy_container.index){}
 
                     // Return a new iterator at the beginning
-                    AscendingIterator begin() const{
-                        AscendingIterator begin_iterator(container);
-                        return begin_iterator;
+                    AscendingIterator begin(){
+                        index = 0;
+                        return *this;
                     }
 
                     // Return an iterator that point to the end of the container (one past the last element)
-                    AscendingIterator end() const{
-                        AscendingIterator iterator_end(container);
-                        iterator_end.index = (int)container.size();
-                        return iterator_end;
+                    AscendingIterator end(){
+                        index = container.getContainer().size();
+                        return *this;
 
                     }
 
 
                     int& operator*() const {
-                        return container.getContainer()[static_cast<vector<int>::size_type>(index)];
+                        return container.getContainer()[index];
                     }
 
                     AscendingIterator& operator++(){
@@ -223,54 +251,56 @@ namespace ariel{
                 private:
 
                     MagicalContainer& container;
-                    int idx_start;
-                    int idx_end;
-                    bool start_move = true;
+                    size_t idx_start;
+                    size_t idx_end;
+                    bool start_move;
                     
 
                 public:
 
                     //defualt constructor
-                    SideCrossIterator(MagicalContainer& container) : container(container),idx_start(0),idx_end(container.size()-1){
+                    SideCrossIterator(MagicalContainer& container) : container(container),idx_start(0),idx_end(container.getContainer().size()-1) ,start_move(true){
 
                     } 
 
                     //Copy constructor
-                    SideCrossIterator(const SideCrossIterator& other_container) : container(other_container.container){} //Copy constructor
-
-                    void setStart_move(bool change){
-                        start_move = change;
-                    }
+                    SideCrossIterator(const SideCrossIterator& other) : container(other.container),idx_start(other.idx_start),idx_end(other.idx_end) ,start_move(true){} //Copy constructor
 
                     // Return a new iterator at the beginning
                     SideCrossIterator begin(){
-                        this->idx_start = 0;
-                        this->idx_end = container.size() - 1;
-
+                        idx_start = 0;
+                        idx_end = container.getContainer().size() - 1;
+                        
                         return *this;
+
                     }
 
                     // Return an iterator that point to the end of the container (one past the last element)
                     SideCrossIterator end(){
-                        this->idx_start = container.size();
+                        this->idx_start = container.getContainer().size();
                         this->idx_end = 0;
-
+                        
                         return *this;
                     }
 
 
-                    int& operator*(){
+                   int operator*() {
+                        
                         if(start_move){
+                           
                             start_move = false;
-                            return container.getContainer()[static_cast<vector<int>::size_type>(idx_start)];
+                            return container.getContainer()[idx_start];
                         }
                         else{
+                            
                             start_move = true;
-                            return container.getContainer()[static_cast<vector<int>::size_type>(idx_end)];
+                            return container.getContainer()[idx_end];
                         }
                     }
 
+
                     SideCrossIterator& operator++(){
+                        
                         if(start_move){
                             idx_end--;
                         }
@@ -279,10 +309,11 @@ namespace ariel{
                         }
 
                         if(idx_end < idx_start){
-                            // idx_start = *this->end();
-                            idx_end = *this->end();
+                            idx_end = 0;
+                            idx_start = container.getContainer().size();
+                            // return *this;
+                            
                         }
-
                         return *this;
                     }
 
@@ -298,14 +329,14 @@ namespace ariel{
                         if (container.getContainer() != other.container.getContainer()) {
                             throw std::runtime_error("Comparison between iterators of different containers");
                         }
-                        return (idx_start > other.idx_start) && (idx_end < other.idx_end);
+                        return start_move ? idx_start > other.idx_start : idx_end > other.idx_end;
                     }
 
                     bool operator<(const SideCrossIterator& other) const{
                         if (container.getContainer() != other.container.getContainer()) {
                             throw std::runtime_error("Comparison between iterators of different containers");
                         }
-                        return (idx_start < other.idx_start) && (idx_end > other.idx_end);
+                        return start_move ? idx_start < other.idx_start : idx_end < other.idx_end;
                     }
 
 
@@ -318,6 +349,7 @@ namespace ariel{
                             container = other.container;
                             idx_start = other.idx_start;
                             idx_end = other.idx_end;
+                            start_move = other.start_move;
                         }
                         return *this;
                     }
@@ -328,9 +360,10 @@ namespace ariel{
                     // Move assignment operator
                     SideCrossIterator& operator=(SideCrossIterator&& other) noexcept {
                         if (this != &other) {
-                            container = std::move(other.container);
+                            container = other.container;
                             idx_start = other.idx_start;
                             idx_end = other.idx_end;
+                            start_move = other.start_move;
                         }
                         return *this;
                     }
@@ -342,26 +375,7 @@ namespace ariel{
                 private:
 
                     MagicalContainer& container;
-                    int index;
-
-                    bool static isPrime(int element){
-                        
-                        if(element <= 1){
-                            return false;
-                        }
-
-                        if(element == 2 || element == 3){
-                            return true;
-                        }
-
-                        for(int i=3 ; i<=sqrt(element) ; i++){
-                            if(element % i == 0){
-                                return false;
-                            }
-                        }
-
-                        return true;
-                    }
+                    size_t index;
 
                 public:
 
@@ -375,34 +389,26 @@ namespace ariel{
 
 
                     // Return a new iterator at the beginning
-                    PrimeIterator begin() const{
-                        return PrimeIterator(container);
+                    PrimeIterator begin(){
+                        this->index = 0;
+                        return *this;
                     }
 
                     // Return an iterator that point to the end of the container (one past the last element)
-                    PrimeIterator end() const{
-                        PrimeIterator iterator_end(container);
-                        iterator_end.index = (int)container.size();
-                        return iterator_end;
+                    PrimeIterator end(){
+                        this->index = container.getPrimeContainer().size();
+                        return *this;
                     }
 
 
                     int& operator*(){
     
-                        if (isPrime(container.getContainer()[static_cast<vector<int>::size_type>(index)])) {
-                            return container.getContainer()[static_cast<vector<int>::size_type>(index)];
-                        }
-
-                        this->index++;
-                        return container.getContainer()[static_cast<vector<int>::size_type>(index)];
+                        return *(container.getPrimeContainer()[index]);
                     }
 
 
                     PrimeIterator& operator++(){
                         index++;
-                        while (index < static_cast<int>(container.getContainer().size()) && !isPrime(container.getContainer()[(size_t)index])) {
-                            index++;
-                        }
                         return *this;
                     }
 
