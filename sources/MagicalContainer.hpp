@@ -179,15 +179,14 @@ namespace ariel{
 
                     // Return a new iterator at the beginning
                     AscendingIterator begin(){
-                        index = 0;
+                        this->index = 0;
                         return *this;
                     }
 
                     // Return an iterator that point to the end of the container (one past the last element)
                     AscendingIterator end(){
-                        index = container.getContainer().size();
+                        this->index = container.getContainer().size();
                         return *this;
-
                     }
 
 
@@ -197,13 +196,13 @@ namespace ariel{
 
                     AscendingIterator& operator++(){
 
-                        if( index == container.getContainer().size()){
-                             throw std::runtime_error("++ error: iterator already at end index");
+                        if(index == container.getContainer().size()){
+                             throw std::runtime_error("Iterator already at end index");
                         }
-                        // Increment the index
-                        index++;
-                        return *this;
 
+                        // Increment the index
+                        this->index++;
+                        return *this;
                     }
 
                     bool operator==(const AscendingIterator& other) const{
@@ -262,18 +261,18 @@ namespace ariel{
                     MagicalContainer& container;
                     size_t idx_start;
                     size_t idx_end;
-                    bool start_move;
+                    bool move_from_start;
                     
 
                 public:
 
                     //defualt constructor
-                    SideCrossIterator(MagicalContainer& container) : container(container),idx_start(0),idx_end(container.getContainer().size()-1) ,start_move(true){
+                    SideCrossIterator(MagicalContainer& container) : container(container),idx_start(0),idx_end(container.getContainer().size()-1) ,move_from_start(true){
 
                     } 
 
                     //Copy constructor
-                    SideCrossIterator(const SideCrossIterator& other) : container(other.container),idx_start(other.idx_start),idx_end(other.idx_end) ,start_move(true){} //Copy constructor
+                    SideCrossIterator(const SideCrossIterator& other) : container(other.container),idx_start(other.idx_start),idx_end(other.idx_end) ,move_from_start(true){} //Copy constructor
 
                     // Return a new iterator at the beginning
                     SideCrossIterator begin(){
@@ -295,7 +294,7 @@ namespace ariel{
 
                    int operator*() {
                         
-                        if(start_move){
+                        if(move_from_start){
                             return container.getContainer()[idx_start];
                         }
                         else{
@@ -310,19 +309,18 @@ namespace ariel{
                              throw std::runtime_error("++ error: iterator already at end index");
                         }
                         
-                        if(start_move){
+                        if(move_from_start){
                             idx_start++;
-                            start_move = false;
+                            move_from_start = false;
                         }
                         else{
                             idx_end--;
-                            start_move = true;
+                            move_from_start = true;
                         }
 
                         if(idx_end < idx_start){
                             idx_end = 0;
                             idx_start = container.getContainer().size();
-                            // return *this;
                             
                         }
                         return *this;
@@ -337,17 +335,18 @@ namespace ariel{
                     }
 
                     bool operator>(const SideCrossIterator& other) const{
-                        if (container.getContainer() != other.container.getContainer()) {
-                            throw std::runtime_error("Comparison between iterators of different containers");
-                        }
-                        return start_move ? idx_start > other.idx_start : idx_end > other.idx_end;
+                        // if (container.getContainer() != other.container.getContainer()) {
+                        //     throw std::runtime_error("Comparison between iterators of different containers");
+                        // }
+
+                        return !move_from_start ? idx_start > other.idx_start : idx_end > other.idx_end;
                     }
 
                     bool operator<(const SideCrossIterator& other) const{
-                        if (container.getContainer() != other.container.getContainer()) {
-                            throw std::runtime_error("Comparison between iterators of different containers");
-                        }
-                        return start_move ? idx_start < other.idx_start : idx_end < other.idx_end;
+                        // if (container.getContainer() != other.container.getContainer()) {
+                        //     throw std::runtime_error("Comparison between iterators of different containers");
+                        // }
+                        return move_from_start ? idx_start < other.idx_start : idx_end < other.idx_end;
                     }
 
 
@@ -365,7 +364,7 @@ namespace ariel{
                             container = other.container;
                             idx_start = other.idx_start;
                             idx_end = other.idx_end;
-                            start_move = other.start_move;
+                            move_from_start = other.move_from_start;
                         }
                         return *this;
                     }
@@ -379,7 +378,7 @@ namespace ariel{
                             container = other.container;
                             idx_start = other.idx_start;
                             idx_end = other.idx_end;
-                            start_move = other.start_move;
+                            move_from_start = other.move_from_start;
                         }
                         return *this;
                     }
