@@ -30,49 +30,27 @@ namespace ariel{
               container = new_container;
             }
 
-            void addElement(int element){
-                
-                if(isPrime(element)){
-                    prime_container.push_back(&element);
-                }
-
-                for(size_t i = 0; i<container.size();i++){
-                    if(container[i] == element){
-                        return;
-                    }
-                }
-
-                container.push_back(element);
-
-                std::sort(container.begin(),container.end());
+            vector<int*>& getPrimeContainer(){
+                return prime_container;
             }
 
-            void removeElement(int element){
-                bool find = false;
-                for(auto i=container.begin(); i!=container.end();i++){
-                    if(*i == element){
-                        container.erase(i);
-                        find = true;
-                        break;
-                    }
-                }
+            void addElement(int element);
 
-                if(!find){
-                    throw std::runtime_error("This Element isnt in the container");
-                }
-            }
+            void removeElement(int element);
 
             // return size of container
-            int size(){
-                return container.size();
-            }
+            int size();
 
             bool operator==(const MagicalContainer& other) const {
                 return container == other.container;
             }
 
             // destructor
-            ~MagicalContainer() = default;
+            ~MagicalContainer() {
+                for (int* prime : prime_container) {
+                    delete prime;
+                }
+            }
 
             // Copy assignment operator
             MagicalContainer& operator=(const MagicalContainer& other) {
@@ -95,35 +73,14 @@ namespace ariel{
                 return *this;
             }
 
-            bool static isPrime(int element){
-                        
-                if(element <= 1){
-                    return false;
-                }
-
-                if(element == 2 || element == 3){
-                    return true;
-                }
-
-                for(int i=3 ; i<=sqrt(element) ; i++){
-                    if(element % i == 0){
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-
-            vector<int*>& getPrimeContainer(){
-                return prime_container;
-            }
-
- 
+            
         private:
 
             vector<int> container;
 
             vector<int*> prime_container;
+            
+            bool static isPrime(int element);
 
 
         public:
@@ -297,9 +254,9 @@ namespace ariel{
                         if(move_from_start){
                             return container.getContainer()[idx_start];
                         }
-                        else{
-                            return container.getContainer()[idx_end];
-                        }
+                        
+                        return container.getContainer()[idx_end];
+                        
                     }
 
 
@@ -346,7 +303,7 @@ namespace ariel{
                         // if (container.getContainer() != other.container.getContainer()) {
                         //     throw std::runtime_error("Comparison between iterators of different containers");
                         // }
-                        return move_from_start ? idx_start < other.idx_start : idx_end < other.idx_end;
+                        return !(*this == other) && !(*this > other);
                     }
 
 
@@ -370,12 +327,12 @@ namespace ariel{
                     }
 
                     // Move constructor
-                    SideCrossIterator(SideCrossIterator&& other) noexcept : container(other.container), idx_start(other.idx_start),idx_end(other.idx_end) {}
+                    SideCrossIterator(SideCrossIterator&& other) noexcept : container(other.container), idx_start(other.idx_start),idx_end(other.idx_end),move_from_start(other.move_from_start) {}
 
                     // Move assignment operator
                     SideCrossIterator& operator=(SideCrossIterator&& other) noexcept {
                         if (this != &other) {
-                            container = other.container;
+                            container = std::move(other.container);
                             idx_start = other.idx_start;
                             idx_end = other.idx_end;
                             move_from_start = other.move_from_start;

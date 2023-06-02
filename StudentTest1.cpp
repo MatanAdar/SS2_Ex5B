@@ -387,12 +387,6 @@ TEST_CASE("Comparing SideCrossIterator") {
         CHECK_FALSE((itStart1 != itStart1));
         CHECK_FALSE((itStart1 > itStart1));
         CHECK_FALSE((itStart1 < itStart1));
-
-        // ++itStart2;
-        // CHECK_FALSE((itStart1 == itStart2));
-        // CHECK((itStart1 != itStart2));
-        // CHECK_FALSE((itStart1 > itStart2));
-        // CHECK((itStart1 < itStart2));
     }
 }
 //---------------------------------------------------
@@ -601,5 +595,4 @@ TEST_CASE("operator= throws when iterators are pointing at different containers"
         CHECK_THROWS_AS(it1 = it2, std::runtime_error);
    }
 }
-
 
