@@ -3,33 +3,38 @@
 
 namespace ariel{
 
-    void MagicalContainer::addElement(int num_to_add){
-        for(int element : container){
-            if(num_to_add == element){
+    void MagicalContainer::addElement(int element){
+        for(int integer : container){
+            if(integer == element){
                 return;
             }
         }
 
-        container.push_back(num_to_add);
+        container.push_back(element);
 
-        if(isPrime(num_to_add)){
-            int *pointer_prime = new int(num_to_add);
-            prime_container.push_back( pointer_prime );
+        if(isPrime(element)){
+            
+            prime_container.push_back(new int(element));
 
         }
+
         sort(container.begin(),container.end());
         sort(prime_container.begin(), prime_container.end(), [](const int* first,const int* second) {return *first < *second;});
     }
 
     void MagicalContainer::removeElement(int element){
         bool find = false;
-        for(auto i=container.begin(); i!=container.end();i++){
-            if(*i == element){
-                container.erase(i);
+        for(auto iter=container.begin(); iter!=container.end();iter++){
+            if(*iter == element){
+                container.erase(iter);
                 // i--;
                 find = true;
                 break;
             }
+        }
+
+        if(!find){
+            throw std::runtime_error("This Element isnt in the container");
         }
 
         if(isPrime(element)){
@@ -39,9 +44,6 @@ namespace ariel{
             delete elementToRemove;
         }
 
-        if(!find){
-            throw std::runtime_error("This Element isnt in the container");
-        }
     }
 
     // return size of container

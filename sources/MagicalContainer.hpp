@@ -85,125 +85,171 @@ namespace ariel{
 
         public:
 
-            // class Iterator{
-
-            //     private:
-
-            //         MagicalContainer& container;
-            //         int index = 0;
-                    
-
-            //     public:
-
-            //         Iterator(MagicalContainer& container) : container(container){}
-
-
-            //         // // Return a new iterator at the beginning
-            //         // AscendingIterator begin() const{
-            //         //     AscendingIterator begin_iterator(container);
-            //         //     return begin_iterator;
-            //         // }
-
-            //         // // Return an iterator that point to the end of the container (one past the last element)
-            //         // AscendingIterator end() const{
-            //         //     AscendingIterator iterator_end(container);
-            //         //     iterator_end.index = (int)container.size();
-            //         //     return iterator_end;
-
-            //         // }
-
-                    
-
-
-            // };
-
-            class AscendingIterator{
-
+            class FatherIterator {
                 private:
-
                     MagicalContainer& container;
                     size_t index;
+                    bool move_from_start;
+
+                public:
+                    // Default constructor
+                    FatherIterator(MagicalContainer& container) : container(container), index(0),move_from_start(true) {}
+
+                    // Copy constructor
+                    FatherIterator(const FatherIterator& other) : container(other.container), index(other.index) , move_from_start(other.move_from_start) {}
+
+                    size_t getIndex() const{
+                        return index;
+                    }
+
+                    void setIndex(size_t other){
+                        index = other;
+                    }
+
+                    MagicalContainer& getContainerItr() const{
+                        return container;
+                    }
+
+                    bool getMove_from_start() const{
+                        return move_from_start;
+                    }
+
+                    void SetMove_from_start(bool other){
+                        move_from_start = other;
+                    }
+
+                    // Return a new iterator at the beginning
+                    virtual FatherIterator& begin() = 0;
+
+                    // Return an iterator that points to the end of the container (one past the last element)
+                    virtual FatherIterator& end() = 0;
+
+                    // Dereference operator
+                    virtual int& operator*() = 0;
+
+                    // Increment operator
+                    virtual FatherIterator& operator++() = 0;
+
+                    // Equality comparison operator
+                    bool operator==(const FatherIterator& other) const{
+                        if(typeid(*this) != typeid(other)){
+                            throw std::runtime_error("Cant check euqal on diffrent iterators");
+                        }
+
+
+                        return (this->container == other.container) && (this->index == other.index);
+                    }
+
+                    // Inequality comparison operator
+                    bool operator!=(const FatherIterator& other) const {
+                        return !(*this == other);
+                    }
+
+                    bool operator>(const FatherIterator& other) const{
+                        return index > other.index;
+                    }
+
+                    bool operator<(const FatherIterator& other) const{
+                        return index < other.index;
+                    }
+
+                    // Destructor
+                    virtual ~FatherIterator() = default;
+
+                    // Copy assignment operator
+                    FatherIterator& operator=(const FatherIterator& other) {
+
+                        if(container.getContainer() != other.container.getContainer()){
+                            throw std::runtime_error("containers are not the same");
+                        }
+
+                        if (this != &other) {
+                            container = other.container;
+                            index = other.index;
+                            move_from_start = other.move_from_start;
+                        }
+                        return *this;
+                    }
+
+                    // Move constructor
+                    FatherIterator(FatherIterator&& other) noexcept : container(other.container), index(other.index) , move_from_start(other.move_from_start) {}
+
+                    // Move assignment operator
+                    FatherIterator& operator=(FatherIterator&& other) noexcept {
+                        if (this != &other) {
+                        container = std::move(other.container);
+                        index = other.index;
+                        move_from_start = other.move_from_start;
+                        }
+                        return *this;
+                    }
+            };
+
+            class AscendingIterator : public FatherIterator{
 
                 public:
 
                     //defult constructor
-                    AscendingIterator(MagicalContainer& container) : container(container),index(0){
+                    AscendingIterator(MagicalContainer& container) : FatherIterator(container){
 
                     }
 
                     //Copy constructor
-                    AscendingIterator(const AscendingIterator& copy_container) : container(copy_container.container) , index(copy_container.index){}
+                    AscendingIterator(const AscendingIterator& copy_container) : FatherIterator(copy_container.getContainerItr()){}
 
                     // Return a new iterator at the beginning
-                    AscendingIterator begin(){
-                        this->index = 0;
+                    AscendingIterator& begin() override{
+                        this->setIndex(0);
                         return *this;
                     }
 
                     // Return an iterator that point to the end of the container (one past the last element)
-                    AscendingIterator end(){
-                        this->index = container.getContainer().size();
+                    AscendingIterator& end() override{
+                        this->setIndex(this->getContainerItr().getContainer().size());
                         return *this;
                     }
 
 
-                    int& operator*() const {
-                        return container.getContainer()[index];
+                    int& operator*() override{
+                        return this->getContainerItr().getContainer()[this->getIndex()];
                     }
 
-                    AscendingIterator& operator++(){
+                    AscendingIterator& operator++() override{
 
-                        if(index == container.getContainer().size()){
+                        if(this->getIndex() == this->getContainerItr().getContainer().size()){
                              throw std::runtime_error("Iterator already at end index");
                         }
 
                         // Increment the index
-                        this->index++;
+                        this->setIndex(this->getIndex()+1);
                         return *this;
                     }
 
-                    bool operator==(const AscendingIterator& other) const{
-                        return index == other.index;
-                    }
-
-                    bool operator!=(const AscendingIterator& other) const{
-                        return index != other.index;
-                    }
-
-                    bool operator>(const AscendingIterator& other) const{
-                        return index > other.index;
-                    }
-
-                    bool operator<(const AscendingIterator& other) const{
-                        return index < other.index;
-                    }
-
-
                     //Destructor
-                    ~AscendingIterator() = default;
+                    ~AscendingIterator() override = default;
 
                     // Copy assignment operator
                     AscendingIterator& operator=(const AscendingIterator& other) {
 
-                        if(container.getContainer() != other.container.getContainer()){
+                        if(this->getContainerItr().getContainer() != other.getContainerItr().getContainer()){
                             throw std::runtime_error("containers are not the same");
                         }
 
                         if (this != &other) {
-                            container = other.container;
-                            index = other.index;
+                            this->getContainerItr() = other.getContainerItr();
+                            this->setIndex(other.getIndex());
                         }
                         return *this;
                     }
 
                     // Move constructor
-                    AscendingIterator(AscendingIterator&& other) noexcept : container(other.container), index(other.index) {}
+                    AscendingIterator(AscendingIterator&& other) noexcept : FatherIterator(other.getContainerItr()){}
 
                     // Move assignment operator
                     AscendingIterator& operator=(AscendingIterator&& other) noexcept {
                         if (this != &other) {
-                            container = std::move(other.container);
-                            index = other.index;
+                            this->getContainerItr() = std::move(other.getContainerItr());
+                            this->setIndex(other.getIndex());
                         }
                         return *this;
                     }
@@ -211,229 +257,183 @@ namespace ariel{
             };
 
 
-            class SideCrossIterator{
-                
-                private:
-
-                    MagicalContainer& container;
-                    size_t idx_start;
-                    size_t idx_end;
-                    bool move_from_start;
+            class SideCrossIterator : public FatherIterator{
                     
-
                 public:
 
                     //defualt constructor
-                    SideCrossIterator(MagicalContainer& container) : container(container),idx_start(0),idx_end(container.getContainer().size()-1) ,move_from_start(true){
+                    SideCrossIterator(MagicalContainer& container) : FatherIterator(container){
 
                     } 
 
                     //Copy constructor
-                    SideCrossIterator(const SideCrossIterator& other) : container(other.container),idx_start(other.idx_start),idx_end(other.idx_end) ,move_from_start(true){} //Copy constructor
+                    SideCrossIterator(const SideCrossIterator& other) : FatherIterator(other.getContainerItr()){} //Copy constructor
 
                     // Return a new iterator at the beginning
-                    SideCrossIterator begin(){
-                        idx_start = 0;
-                        idx_end = container.getContainer().size() - 1;
-                        
+                    SideCrossIterator& begin() override{
+                        this->SetMove_from_start(true);
+                        this->setIndex(0);
                         return *this;
 
                     }
 
                     // Return an iterator that point to the end of the container (one past the last element)
-                    SideCrossIterator end(){
-                        this->idx_start = container.getContainer().size();
-                        this->idx_end = 0;
-                        
+                    SideCrossIterator& end() override{
+                        this->setIndex(this->getContainerItr().getContainer().size());
+                        this->SetMove_from_start(false);
                         return *this;
                     }
 
 
-                   int operator*() {
-                        
-                        if(move_from_start){
-                            return container.getContainer()[idx_start];
+                   int& operator*() override{
+
+                        if (this->getMove_from_start()) {
+                            return this->getContainerItr().getContainer()[this->getIndex()];
                         }
                         
-                        return container.getContainer()[idx_end];
+                        return this->getContainerItr().getContainer()[this->getContainerItr().getContainer().size() - this->getIndex()];
+                        
                         
                     }
 
 
-                    SideCrossIterator& operator++(){
+                    SideCrossIterator& operator++() override{
 
-                        if( idx_start == container.getContainer().size() && idx_end == 0){
-                             throw std::runtime_error("++ error: iterator already at end index");
+                        if (this->getIndex() == this->getContainerItr().getContainer().size()) {
+                            throw std::runtime_error("Iterator already at end index");
                         }
-                        
-                        if(move_from_start){
-                            idx_start++;
-                            move_from_start = false;
-                        }
-                        else{
-                            idx_end--;
-                            move_from_start = true;
+                        if (this->getMove_from_start()) {
+                            this->SetMove_from_start(false);
+                            if (this->getIndex() == this->getContainerItr().getContainer().size()/2){
+                                this->setIndex(this->getContainerItr().getContainer().size());
+                            }else{
+                                this->setIndex(this->getIndex() + 1);
+                            }
+                        } else {
+                            this->SetMove_from_start(true);
                         }
 
-                        if(idx_end < idx_start){
-                            idx_end = 0;
-                            idx_start = container.getContainer().size();
-                            
-                        }
                         return *this;
-                    }
 
-                    bool operator==(const SideCrossIterator& other) const{
-                         return (container == other.container) && (idx_start == other.idx_start) && (idx_end == other.idx_end);
-                    }
-
-                    bool operator!=(const SideCrossIterator& other) const{
-                        return !(*this == other);
-                    }
-
-                    bool operator>(const SideCrossIterator& other) const{
-                        // if (container.getContainer() != other.container.getContainer()) {
-                        //     throw std::runtime_error("Comparison between iterators of different containers");
-                        // }
-
-                        return !move_from_start ? idx_start > other.idx_start : idx_end > other.idx_end;
-                    }
-
-                    bool operator<(const SideCrossIterator& other) const{
-                        // if (container.getContainer() != other.container.getContainer()) {
-                        //     throw std::runtime_error("Comparison between iterators of different containers");
-                        // }
-                        return !(*this == other) && !(*this > other);
                     }
 
 
                     //Destructor
-                    ~SideCrossIterator() = default;
+                    ~SideCrossIterator() override= default;
 
                     // Copy assignment operator
                     SideCrossIterator& operator=(const SideCrossIterator& other) {
 
-                        if(container.getContainer() != other.container.getContainer()){
+                        if(this->getContainerItr().getContainer() != other.getContainerItr().getContainer()){
                             throw std::runtime_error("containers are not the same");
                         }
 
                         if (this != &other) {
-                            container = other.container;
-                            idx_start = other.idx_start;
-                            idx_end = other.idx_end;
-                            move_from_start = other.move_from_start;
+                            this->getContainerItr() = other.getContainerItr();
+                            this->setIndex(other.getIndex());
                         }
                         return *this;
                     }
 
                     // Move constructor
-                    SideCrossIterator(SideCrossIterator&& other) noexcept : container(other.container), idx_start(other.idx_start),idx_end(other.idx_end),move_from_start(other.move_from_start) {}
+                    SideCrossIterator(SideCrossIterator&& other) noexcept : FatherIterator(other.getContainerItr()){}
 
                     // Move assignment operator
                     SideCrossIterator& operator=(SideCrossIterator&& other) noexcept {
                         if (this != &other) {
-                            container = std::move(other.container);
-                            idx_start = other.idx_start;
-                            idx_end = other.idx_end;
-                            move_from_start = other.move_from_start;
+                            this->getContainerItr() = std::move(other.getContainerItr());
+                            this->setIndex(other.getIndex());
                         }
                         return *this;
                     }
+                    
             };
 
 
-            class PrimeIterator{
-
-                private:
-
-                    MagicalContainer& container;
-                    size_t index;
+            class PrimeIterator : public FatherIterator{
 
                 public:
 
                     //defualt constructor
-                    PrimeIterator(MagicalContainer& container) : container(container) , index(0){
+                    PrimeIterator(MagicalContainer& container) : FatherIterator(container){
                         
                     } 
 
                     //Copy constructor
-                    PrimeIterator(const PrimeIterator& other_container) : container(other_container.container) , index(other_container.index){} //Copy constructor
+                    PrimeIterator(const PrimeIterator& other_container) : FatherIterator(other_container.getContainerItr()){} //Copy constructor
 
 
                     // Return a new iterator at the beginning
-                    PrimeIterator begin(){
-                        this->index = 0;
+                    PrimeIterator& begin() override{
+                        this->setIndex(0);
                         return *this;
                     }
 
                     // Return an iterator that point to the end of the container (one past the last element)
-                    PrimeIterator end(){
-                        this->index = container.getPrimeContainer().size();
+                    PrimeIterator& end() override{
+                        this->setIndex(this->getContainerItr().getPrimeContainer().size());
                         return *this;
                     }
 
 
-                    int& operator*(){
+                    int& operator*() override{
     
-                        return *(container.getPrimeContainer()[index]);
+                        return *(this->getContainerItr().getPrimeContainer()[this->getIndex()]);
                     }
 
 
-                    PrimeIterator& operator++(){
+                    PrimeIterator& operator++() override{
                         
-                        if( index == container.getPrimeContainer().size()){
+                        if( this->getIndex() == this->getContainerItr().getPrimeContainer().size()){
                              throw std::runtime_error("++ error: iterator already at end index");
                         }
 
-                        index++;
+                        this->setIndex(this->getIndex()+1);
                         return *this;
                     }
 
-                    bool operator==(const PrimeIterator& other) const{
-                        return index == other.index;
-                    }
-
-                    bool operator!=(const PrimeIterator& other) const{
-                        return index != other.index;
-                    }
-
-                    bool operator>(const PrimeIterator& other) const{
-                        return index > other.index;
-                    }
-
-                    bool operator<(const PrimeIterator& other) const{
-                        return index < other.index;
-                    }
-
                     //Destructor
-                    ~PrimeIterator() = default;
-
+                    ~PrimeIterator() override= default;
 
                     // Copy assignment operator
                     PrimeIterator& operator=(const PrimeIterator& other) {
 
-                        if(container.getContainer() != other.container.getContainer()){
+                        if(this->getContainerItr().getContainer() != other.getContainerItr().getContainer()){
                             throw std::runtime_error("containers are not the same");
                         }
 
                         if (this != &other) {
-                            container = other.container;
-                            index = other.index;
+                            this->getContainerItr() = other.getContainerItr();
+                            this->setIndex(other.getIndex());
                         }
                         return *this;
                     }
 
                     // Move constructor
-                    PrimeIterator(PrimeIterator&& other) noexcept : container(other.container), index(other.index) {}
+                    PrimeIterator(PrimeIterator&& other) noexcept : FatherIterator(other.getContainerItr()){}
 
                     // Move assignment operator
                     PrimeIterator& operator=(PrimeIterator&& other) noexcept {
                         if (this != &other) {
-                            container = std::move(other.container);
-                            index = other.index;
+                            this->getContainerItr() = std::move(other.getContainerItr());
+                            this->setIndex(other.getIndex());
                         }
                         return *this;
                     }
+
+                    // PrimeIterator& operator=(const FatherIterator& other) override {
+                    //     return static_cast<PrimeIterator&>(FatherIterator::operator=(other));
+                    // }
+
+                    // // Override move constructor
+                    // PrimeIterator(PrimeIterator&& other) noexcept : FatherIterator(std::move(other)) {
+                    //     // Implementation
+                    // }
+
+                    // // Override move assignment operator
+                    // PrimeIterator& operator=(PrimeIterator&& other) noexcept {
+                    //     return static_cast<PrimeIterator&>(FatherIterator::operator=(std::move(other)));
+                    // }
 
             };
 
