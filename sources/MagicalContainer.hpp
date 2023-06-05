@@ -194,8 +194,8 @@ namespace ariel{
 
                     }
 
-                    //Copy constructor
-                    AscendingIterator(const AscendingIterator& copy_container) : FatherIterator(copy_container.getContainerItr()){}
+                    // //Copy constructor
+                    // AscendingIterator(const AscendingIterator& copy_container) : FatherIterator(copy_container.getContainerItr()){}
 
                     // Return a new iterator at the beginning
                     AscendingIterator& begin() override{
@@ -225,34 +225,34 @@ namespace ariel{
                         return *this;
                     }
 
-                    //Destructor
-                    ~AscendingIterator() override = default;
+                    // //Destructor
+                    // ~AscendingIterator() override = default;
 
-                    // Copy assignment operator
-                    AscendingIterator& operator=(const AscendingIterator& other) {
+                    // // Copy assignment operator
+                    // AscendingIterator& operator=(const AscendingIterator& other) {
 
-                        if(this->getContainerItr().getContainer() != other.getContainerItr().getContainer()){
-                            throw std::runtime_error("containers are not the same");
-                        }
+                    //     if(this->getContainerItr().getContainer() != other.getContainerItr().getContainer()){
+                    //         throw std::runtime_error("containers are not the same");
+                    //     }
 
-                        if (this != &other) {
-                            this->getContainerItr() = other.getContainerItr();
-                            this->setIndex(other.getIndex());
-                        }
-                        return *this;
-                    }
+                    //     if (this != &other) {
+                    //         this->getContainerItr() = other.getContainerItr();
+                    //         this->setIndex(other.getIndex());
+                    //     }
+                    //     return *this;
+                    // }
 
-                    // Move constructor
-                    AscendingIterator(AscendingIterator&& other) noexcept : FatherIterator(other.getContainerItr()){}
+                    // // Move constructor
+                    // AscendingIterator(AscendingIterator&& other) noexcept : FatherIterator(other.getContainerItr()){}
 
-                    // Move assignment operator
-                    AscendingIterator& operator=(AscendingIterator&& other) noexcept {
-                        if (this != &other) {
-                            this->getContainerItr() = std::move(other.getContainerItr());
-                            this->setIndex(other.getIndex());
-                        }
-                        return *this;
-                    }
+                    // // Move assignment operator
+                    // AscendingIterator& operator=(AscendingIterator&& other) noexcept {
+                    //     if (this != &other) {
+                    //         this->getContainerItr() = std::move(other.getContainerItr());
+                    //         this->setIndex(other.getIndex());
+                    //     }
+                    //     return *this;
+                    // }
 
             };
 
@@ -266,8 +266,8 @@ namespace ariel{
 
                     } 
 
-                    //Copy constructor
-                    SideCrossIterator(const SideCrossIterator& other) : FatherIterator(other.getContainerItr()){} //Copy constructor
+                    // //Copy constructor
+                    // SideCrossIterator(const SideCrossIterator& other) : FatherIterator(other.getContainerItr()){}
 
                     // Return a new iterator at the beginning
                     SideCrossIterator& begin() override{
@@ -318,34 +318,34 @@ namespace ariel{
                     }
 
 
-                    //Destructor
-                    ~SideCrossIterator() override= default;
+                    // //Destructor
+                    // ~SideCrossIterator() override= default;
 
-                    // Copy assignment operator
-                    SideCrossIterator& operator=(const SideCrossIterator& other) {
+                    // // Copy assignment operator
+                    // SideCrossIterator& operator=(const SideCrossIterator& other) {
 
-                        if(this->getContainerItr().getContainer() != other.getContainerItr().getContainer()){
-                            throw std::runtime_error("containers are not the same");
-                        }
+                    //     if(this->getContainerItr().getContainer() != other.getContainerItr().getContainer()){
+                    //         throw std::runtime_error("containers are not the same");
+                    //     }
 
-                        if (this != &other) {
-                            this->getContainerItr() = other.getContainerItr();
-                            this->setIndex(other.getIndex());
-                        }
-                        return *this;
-                    }
+                    //     if (this != &other) {
+                    //         this->getContainerItr() = other.getContainerItr();
+                    //         this->setIndex(other.getIndex());
+                    //     }
+                    //     return *this;
+                    // }
 
-                    // Move constructor
-                    SideCrossIterator(SideCrossIterator&& other) noexcept : FatherIterator(other.getContainerItr()){}
+                    // // Move constructor
+                    // SideCrossIterator(SideCrossIterator&& other) noexcept : FatherIterator(other.getContainerItr()){}
 
-                    // Move assignment operator
-                    SideCrossIterator& operator=(SideCrossIterator&& other) noexcept {
-                        if (this != &other) {
-                            this->getContainerItr() = std::move(other.getContainerItr());
-                            this->setIndex(other.getIndex());
-                        }
-                        return *this;
-                    }
+                    // // Move assignment operator
+                    // SideCrossIterator& operator=(SideCrossIterator&& other) noexcept {
+                    //     if (this != &other) {
+                    //         this->getContainerItr() = std::move(other.getContainerItr());
+                    //         this->setIndex(other.getIndex());
+                    //     }
+                    //     return *this;
+                    // }
                     
             };
 
@@ -359,8 +359,8 @@ namespace ariel{
                         
                     } 
 
-                    //Copy constructor
-                    PrimeIterator(const PrimeIterator& other_container) : FatherIterator(other_container.getContainerItr()){} //Copy constructor
+                    // //Copy constructor
+                    // PrimeIterator(const PrimeIterator& other_container) : FatherIterator(other_container.getContainerItr()){}
 
 
                     // Return a new iterator at the beginning
@@ -392,47 +392,33 @@ namespace ariel{
                         return *this;
                     }
 
-                    //Destructor
-                    ~PrimeIterator() override= default;
+                    // //Destructor
+                    // ~PrimeIterator() override= default;
 
-                    // Copy assignment operator
-                    PrimeIterator& operator=(const PrimeIterator& other) {
+                    // // Copy assignment operator
+                    // PrimeIterator& operator=(const PrimeIterator& other) {
 
-                        if(this->getContainerItr().getContainer() != other.getContainerItr().getContainer()){
-                            throw std::runtime_error("containers are not the same");
-                        }
+                    //     if(this->getContainerItr().getContainer() != other.getContainerItr().getContainer()){
+                    //         throw std::runtime_error("containers are not the same");
+                    //     }
 
-                        if (this != &other) {
-                            this->getContainerItr() = other.getContainerItr();
-                            this->setIndex(other.getIndex());
-                        }
-                        return *this;
-                    }
-
-                    // Move constructor
-                    PrimeIterator(PrimeIterator&& other) noexcept : FatherIterator(other.getContainerItr()){}
-
-                    // Move assignment operator
-                    PrimeIterator& operator=(PrimeIterator&& other) noexcept {
-                        if (this != &other) {
-                            this->getContainerItr() = std::move(other.getContainerItr());
-                            this->setIndex(other.getIndex());
-                        }
-                        return *this;
-                    }
-
-                    // PrimeIterator& operator=(const FatherIterator& other) override {
-                    //     return static_cast<PrimeIterator&>(FatherIterator::operator=(other));
+                    //     if (this != &other) {
+                    //         this->getContainerItr() = other.getContainerItr();
+                    //         this->setIndex(other.getIndex());
+                    //     }
+                    //     return *this;
                     // }
 
-                    // // Override move constructor
-                    // PrimeIterator(PrimeIterator&& other) noexcept : FatherIterator(std::move(other)) {
-                    //     // Implementation
-                    // }
+                    // // Move constructor
+                    // PrimeIterator(PrimeIterator&& other) noexcept : FatherIterator(other.getContainerItr()){}
 
-                    // // Override move assignment operator
+                    // // Move assignment operator
                     // PrimeIterator& operator=(PrimeIterator&& other) noexcept {
-                    //     return static_cast<PrimeIterator&>(FatherIterator::operator=(std::move(other)));
+                    //     if (this != &other) {
+                    //         this->getContainerItr() = std::move(other.getContainerItr());
+                    //         this->setIndex(other.getIndex());
+                    //     }
+                    //     return *this;
                     // }
 
             };
