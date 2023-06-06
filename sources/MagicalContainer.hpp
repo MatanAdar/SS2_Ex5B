@@ -38,6 +38,8 @@ namespace ariel{
 
             void removeElement(int element);
 
+            void update_prime_container();
+
             // return size of container
             int size();
 
@@ -46,11 +48,7 @@ namespace ariel{
             }
 
             // destructor
-            ~MagicalContainer() {
-                for (int* prime : prime_container) {
-                    delete prime;
-                }
-            }
+            ~MagicalContainer(){}
 
             // Copy assignment operator
             MagicalContainer& operator=(const MagicalContainer& other) {
@@ -136,7 +134,6 @@ namespace ariel{
                             throw std::runtime_error("Cant check euqal on diffrent iterators");
                         }
 
-
                         return (this->container == other.container) && (this->index == other.index);
                     }
 
@@ -146,11 +143,12 @@ namespace ariel{
                     }
 
                     bool operator>(const FatherIterator& other) const{
-                        return index > other.index;
+                        return move_from_start ? index > other.index : container.getContainer().size()-1 -index > other.container.getContainer().size()-1-index;
                     }
 
                     bool operator<(const FatherIterator& other) const{
-                        return index < other.index;
+                        // return index < other.index;
+                        return !(*this == other) && !(*this > other);
                     }
 
                     // Destructor

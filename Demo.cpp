@@ -40,7 +40,30 @@ int main() {
 
     // Remove an element from the container and display the size
     container.removeElement(9);
+    container.removeElement(3);
     std::cout << "Size of container after removing an element: " << container.size() << std::endl;
+
+
+    // Use AscendingIterator to display elements in ascending order
+    std::cout << "Elements in ascending order:\n";
+    for (auto it = ascIter.begin(); it != ascIter.end(); ++it) {
+        std::cout << *it << ' ';   // 2 3 9 17 25
+    }
+    std::cout << std::endl;
+
+    // Use DescendingIterator to display elements in descending order
+    std::cout << "Elements in cross order:\n";
+    for (auto it = crossIter.begin(); it != crossIter.end(); ++it) {
+        std::cout << *it << ' ';  // 2 25 3 17 9
+    }
+    std::cout << std::endl;
+
+    // Use PrimeIterator to display prime numbers only
+    std::cout << "Prime numbers:\n";
+    for (auto it = primeIter.begin(); it != primeIter.end(); ++it) {
+        std::cout << *it << ' ';  // 2 3 17 
+    }
+    std::cout << std::endl;
 
     return 0;
 }

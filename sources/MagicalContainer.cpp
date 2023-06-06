@@ -4,47 +4,38 @@
 namespace ariel{
 
     void MagicalContainer::addElement(int element){
-        for(int integer : container){
-            if(integer == element){
-                return;
-            }
+
+        auto iter = std::lower_bound(container.begin(),container.end(),element);
+
+        //Checking if element already in the container
+        if(iter != container.end() && *iter == element){
+            return;
         }
 
-        container.push_back(element);
-
-        if(isPrime(element)){
-            
-            prime_container.push_back(new int(element));
-
-        }
-
-        sort(container.begin(),container.end());
-        sort(prime_container.begin(), prime_container.end(), [](const int* first,const int* second) {return *first < *second;});
+        container.insert(iter,element);
+        update_prime_container();
     }
 
     void MagicalContainer::removeElement(int element){
-        bool find = false;
-        for(auto iter=container.begin(); iter!=container.end();iter++){
-            if(*iter == element){
-                container.erase(iter);
-                // i--;
-                find = true;
-                break;
+
+        auto iter = std::lower_bound(container.begin(),container.end(),element);
+
+        if(iter == container.end() || *iter != element){
+            throw std::runtime_error("Elements not found");
+        }
+        container.erase(iter);
+        update_prime_container();
+    }
+
+     void MagicalContainer::update_prime_container(){
+
+        prime_container.clear();
+        for(size_t i = 0 ; i<container.size();i++){
+            if(isPrime(container[i])){
+                prime_container.push_back(&container[i]);
             }
         }
-
-        if(!find){
-            throw std::runtime_error("This Element isnt in the container");
-        }
-
-        if(isPrime(element)){
-            int* elementToRemove = new int(element);
-            auto iterator = std::find(prime_container.begin(), prime_container.end(), elementToRemove);
-            prime_container.erase(iterator);
-            delete elementToRemove;
-        }
-
-    }
+     }
 
     // return size of container
     int MagicalContainer::size(){
