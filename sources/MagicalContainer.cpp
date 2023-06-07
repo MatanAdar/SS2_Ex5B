@@ -30,7 +30,7 @@ namespace ariel{
      void MagicalContainer::update_prime_container(){
 
         prime_container.clear();
-        for(size_t i = 0 ; i<container.size();i++){
+        for(size_t i = 0; i<container.size();i++){
             if(isPrime(container[i])){
                 prime_container.push_back(&container[i]);
             }

@@ -44,7 +44,7 @@ namespace ariel{
             int size();
 
             bool operator==(const MagicalContainer& other) const {
-                return container == other.container;
+                return container == other.container && prime_container == other.prime_container;
             }
 
             // destructor
@@ -192,9 +192,6 @@ namespace ariel{
 
                     }
 
-                    // //Copy constructor
-                    // AscendingIterator(const AscendingIterator& copy_container) : FatherIterator(copy_container.getContainerItr()){}
-
                     // Return a new iterator at the beginning
                     AscendingIterator& begin() override{
                         this->setIndex(0);
@@ -222,36 +219,6 @@ namespace ariel{
                         this->setIndex(this->getIndex()+1);
                         return *this;
                     }
-
-                    // //Destructor
-                    // ~AscendingIterator() override = default;
-
-                    // // Copy assignment operator
-                    // AscendingIterator& operator=(const AscendingIterator& other) {
-
-                    //     if(this->getContainerItr().getContainer() != other.getContainerItr().getContainer()){
-                    //         throw std::runtime_error("containers are not the same");
-                    //     }
-
-                    //     if (this != &other) {
-                    //         this->getContainerItr() = other.getContainerItr();
-                    //         this->setIndex(other.getIndex());
-                    //     }
-                    //     return *this;
-                    // }
-
-                    // // Move constructor
-                    // AscendingIterator(AscendingIterator&& other) noexcept : FatherIterator(other.getContainerItr()){}
-
-                    // // Move assignment operator
-                    // AscendingIterator& operator=(AscendingIterator&& other) noexcept {
-                    //     if (this != &other) {
-                    //         this->getContainerItr() = std::move(other.getContainerItr());
-                    //         this->setIndex(other.getIndex());
-                    //     }
-                    //     return *this;
-                    // }
-
             };
 
 
@@ -262,10 +229,7 @@ namespace ariel{
                     //defualt constructor
                     SideCrossIterator(MagicalContainer& container) : FatherIterator(container){
 
-                    } 
-
-                    // //Copy constructor
-                    // SideCrossIterator(const SideCrossIterator& other) : FatherIterator(other.getContainerItr()){}
+                    }
 
                     // Return a new iterator at the beginning
                     SideCrossIterator& begin() override{
@@ -314,36 +278,6 @@ namespace ariel{
                         return *this;
 
                     }
-
-
-                    // //Destructor
-                    // ~SideCrossIterator() override= default;
-
-                    // // Copy assignment operator
-                    // SideCrossIterator& operator=(const SideCrossIterator& other) {
-
-                    //     if(this->getContainerItr().getContainer() != other.getContainerItr().getContainer()){
-                    //         throw std::runtime_error("containers are not the same");
-                    //     }
-
-                    //     if (this != &other) {
-                    //         this->getContainerItr() = other.getContainerItr();
-                    //         this->setIndex(other.getIndex());
-                    //     }
-                    //     return *this;
-                    // }
-
-                    // // Move constructor
-                    // SideCrossIterator(SideCrossIterator&& other) noexcept : FatherIterator(other.getContainerItr()){}
-
-                    // // Move assignment operator
-                    // SideCrossIterator& operator=(SideCrossIterator&& other) noexcept {
-                    //     if (this != &other) {
-                    //         this->getContainerItr() = std::move(other.getContainerItr());
-                    //         this->setIndex(other.getIndex());
-                    //     }
-                    //     return *this;
-                    // }
                     
             };
 
@@ -355,11 +289,7 @@ namespace ariel{
                     //defualt constructor
                     PrimeIterator(MagicalContainer& container) : FatherIterator(container){
                         
-                    } 
-
-                    // //Copy constructor
-                    // PrimeIterator(const PrimeIterator& other_container) : FatherIterator(other_container.getContainerItr()){}
-
+                    }
 
                     // Return a new iterator at the beginning
                     PrimeIterator& begin() override{
@@ -389,40 +319,7 @@ namespace ariel{
                         this->setIndex(this->getIndex()+1);
                         return *this;
                     }
-
-                    // //Destructor
-                    // ~PrimeIterator() override= default;
-
-                    // // Copy assignment operator
-                    // PrimeIterator& operator=(const PrimeIterator& other) {
-
-                    //     if(this->getContainerItr().getContainer() != other.getContainerItr().getContainer()){
-                    //         throw std::runtime_error("containers are not the same");
-                    //     }
-
-                    //     if (this != &other) {
-                    //         this->getContainerItr() = other.getContainerItr();
-                    //         this->setIndex(other.getIndex());
-                    //     }
-                    //     return *this;
-                    // }
-
-                    // // Move constructor
-                    // PrimeIterator(PrimeIterator&& other) noexcept : FatherIterator(other.getContainerItr()){}
-
-                    // // Move assignment operator
-                    // PrimeIterator& operator=(PrimeIterator&& other) noexcept {
-                    //     if (this != &other) {
-                    //         this->getContainerItr() = std::move(other.getContainerItr());
-                    //         this->setIndex(other.getIndex());
-                    //     }
-                    //     return *this;
-                    // }
-
             };
-
-            
-
 
     };
 }
