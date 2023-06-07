@@ -134,7 +134,7 @@ namespace ariel{
                             throw std::runtime_error("Cant check euqal on diffrent iterators");
                         }
 
-                        return (this->container == other.container) && (this->index == other.index);
+                        return (this->container == other.container) && (this->index == other.index) && (move_from_start == other.move_from_start);
                     }
 
                     // Inequality comparison operator
@@ -143,7 +143,7 @@ namespace ariel{
                     }
 
                     bool operator>(const FatherIterator& other) const{
-                        return move_from_start ? index > other.index : container.getContainer().size()-1 -index > other.container.getContainer().size()-1-index;
+                        return index > other.index;
                     }
 
                     bool operator<(const FatherIterator& other) const{

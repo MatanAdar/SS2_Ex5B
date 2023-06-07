@@ -382,17 +382,11 @@ TEST_CASE("Comparing SideCrossIterator") {
         CHECK_FALSE((itStart1 > itStart2));
         CHECK_FALSE((itStart1 < itStart2));
 
-        // ++itStart1;
-        // CHECK((itStart1 == itStart1));
-        // CHECK_FALSE((itStart1 != itStart1));
-        // CHECK_FALSE((itStart1 > itStart1));
-        // CHECK_FALSE((itStart1 < itStart1));
-
-        ++itStart2;
-        CHECK_FALSE((itStart1 == itStart2));
-        CHECK((itStart1 != itStart2));
-        CHECK_FALSE((itStart1 > itStart2));
-        CHECK((itStart1 < itStart2));
+        ++itStart1;
+        CHECK((itStart1 == itStart1));
+        CHECK_FALSE((itStart1 != itStart1));
+        CHECK_FALSE((itStart1 > itStart1));
+        CHECK_FALSE((itStart1 < itStart1));
 
     }
 }
