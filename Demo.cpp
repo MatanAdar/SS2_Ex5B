@@ -39,33 +39,56 @@ int main() {
     std::cout << std::endl;
 
     // Remove an element from the container and display the size
+    // std::cout << "Removing number 9" << std::endl;
     container.removeElement(9);
     std::cout << "Size of container after removing an element: " << container.size() << std::endl;
 
-    container.removeElement(3);
+    // // Use AscendingIterator to display elements in ascending order
+    // std::cout << "Elements in ascending order:\n";
+    // for (auto it = ascIter.begin(); it != ascIter.end(); ++it) {
+    //     std::cout << *it << ' ';   // 2 3 17 25
+    // }
+    // std::cout << std::endl;
 
-    // Use AscendingIterator to display elements in ascending order
-    std::cout << "Elements in ascending order:\n";
-    for (auto it = ascIter.begin(); it != ascIter.end(); ++it) {
-        std::cout << *it << ' ';   // 2 3 9 17 25
-    }
-    std::cout << std::endl;
+    // // Use DescendingIterator to display elements in descending order
+    // std::cout << "Elements in cross order:\n";
+    // for (auto it = crossIter.begin(); it != crossIter.end(); ++it) {
+    //     std::cout << *it << ' ';  // 2 25 3 17 
+    // }
+    // std::cout << std::endl;
 
-    // Use DescendingIterator to display elements in descending order
-    std::cout << "Elements in cross order:\n";
-    for (auto it = crossIter.begin(); it != crossIter.end(); ++it) {
-        std::cout << *it << ' ';  // 2 25 3 17 9
-    }
-    std::cout << std::endl;
+    // // Use PrimeIterator to display prime numbers only
+    // std::cout << "Prime numbers:\n";
+    // for (auto it = primeIter.begin(); it != primeIter.end(); ++it) {
+    //     std::cout << *it << ' ';  // 2 3 17 
+    // }
+    // std::cout << std::endl;
 
-    // Use PrimeIterator to display prime numbers only
-    std::cout << "Prime numbers:\n";
-    for (auto it = primeIter.begin(); it != primeIter.end(); ++it) {
-        std::cout << *it << ' ';  // 2 3 17 
-    }
-    std::cout << std::endl;
+    // std::cout << "removing number 3" << std::endl;
+    // container.removeElement(3);
 
-    std::cout << "Size of container after removing an 2 elements: " << container.size() << std::endl;
+    // // Use AscendingIterator to display elements in ascending order
+    // std::cout << "Elements in ascending order:\n";
+    // for (auto it = ascIter.begin(); it != ascIter.end(); ++it) {
+    //     std::cout << *it << ' ';   // 2 3 9 17 25
+    // }
+    // std::cout << std::endl;
+
+    // // Use DescendingIterator to display elements in descending order
+    // std::cout << "Elements in cross order:\n";
+    // for (auto it = crossIter.begin(); it != crossIter.end(); ++it) {
+    //     std::cout << *it << ' ';  // 2 25 3 17 9
+    // }
+    // std::cout << std::endl;
+
+    // // Use PrimeIterator to display prime numbers only
+    // std::cout << "Prime numbers:\n";
+    // for (auto it = primeIter.begin(); it != primeIter.end(); ++it) {
+    //     std::cout << *it << ' ';  // 2 3 17 
+    // }
+    // std::cout << std::endl;
+
+    // std::cout << "Size of container after removing an 2 elements: " << container.size() << std::endl;
 
     return 0;
 }

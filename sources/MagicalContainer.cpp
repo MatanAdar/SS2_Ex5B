@@ -133,19 +133,29 @@ namespace ariel{
 
     MagicalContainer::SideCrossIterator& MagicalContainer::SideCrossIterator::operator++(){
 
-        if (this->getIndex() == this->getContainerItr().getContainer().size()) {
+        size_t containerSize = this->getContainerItr().getContainer().size();
+
+        if (this->getIndex() == containerSize) {
             throw std::runtime_error("Iterator already at end index");
         }
-        if (this->getMove_from_start()) {
-            this->SetMove_from_start(false);
-            if (this->getIndex() == this->getContainerItr().getContainer().size()/2){
-                this->setIndex(this->getContainerItr().getContainer().size());
-            }else{
-                this->setIndex(this->getIndex() + 1);
+
+        if (containerSize % 2 != 0) {
+            if (this->getMove_from_start()) {
+                this->SetMove_from_start(false);
+                (this->getIndex() == containerSize / 2) ? this->setIndex(containerSize) : this->setIndex(this->getIndex() + 1);
+            } else {
+                this->SetMove_from_start(true);
             }
         } else {
-            this->SetMove_from_start(true);
+            if (this->getMove_from_start()) {
+                this->SetMove_from_start(false);
+                this->setIndex(this->getIndex() + 1);
+            } else {
+                this->getIndex() == containerSize / 2 ? this->setIndex(containerSize) : this->SetMove_from_start(true);
+                
+            }
         }
+
 
         return *this;
 
