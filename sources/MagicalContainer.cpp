@@ -120,7 +120,6 @@ namespace ariel{
         return *this;
     }
 
-
     int& MagicalContainer::SideCrossIterator::operator*(){
 
         if (this->getMove_from_start()) {
@@ -131,7 +130,6 @@ namespace ariel{
         
         
     }
-
 
     MagicalContainer::SideCrossIterator& MagicalContainer::SideCrossIterator::operator++(){
 
@@ -172,12 +170,10 @@ namespace ariel{
         return *this;
     }
 
-
     int& MagicalContainer::PrimeIterator::operator*(){
 
         return *(this->getContainerItr().getPrimeContainer()[this->getIndex()]);
     }
-
 
     MagicalContainer::PrimeIterator& MagicalContainer::PrimeIterator::operator++(){
         
