@@ -143,7 +143,7 @@ namespace ariel{
                     }
 
                     bool operator>(const FatherIterator& other) const{
-                        return index > other.index;
+                        return (index > other.index);
                     }
 
                     bool operator<(const FatherIterator& other) const{
@@ -188,37 +188,42 @@ namespace ariel{
                 public:
 
                     //defult constructor
-                    AscendingIterator(MagicalContainer& container) : FatherIterator(container){
+                    // AscendingIterator(MagicalContainer& container) : FatherIterator(container){
 
-                    }
+                    // }
+                    AscendingIterator(MagicalContainer& container);
 
                     // Return a new iterator at the beginning
-                    AscendingIterator& begin() override{
-                        this->setIndex(0);
-                        return *this;
-                    }
+                    // AscendingIterator& begin() override{
+                    //     this->setIndex(0);
+                    //     return *this;
+                    // }
+                    AscendingIterator& begin() override;
 
                     // Return an iterator that point to the end of the container (one past the last element)
-                    AscendingIterator& end() override{
-                        this->setIndex(this->getContainerItr().getContainer().size());
-                        return *this;
-                    }
+                    // AscendingIterator& end() override{
+                    //     this->setIndex(this->getContainerItr().getContainer().size());
+                    //     return *this;
+                    // }
+                    AscendingIterator& end() override;
 
 
-                    int& operator*() override{
-                        return this->getContainerItr().getContainer()[this->getIndex()];
-                    }
+                    // int& operator*() override{
+                    //     return this->getContainerItr().getContainer()[this->getIndex()];
+                    // }
+                    int& operator*() override;
 
-                    AscendingIterator& operator++() override{
+                    // AscendingIterator& operator++() override{
 
-                        if(this->getIndex() == this->getContainerItr().getContainer().size()){
-                             throw std::runtime_error("Iterator already at end index");
-                        }
+                    //     if(this->getIndex() == this->getContainerItr().getContainer().size()){
+                    //          throw std::runtime_error("Iterator already at end index");
+                    //     }
 
-                        // Increment the index
-                        this->setIndex(this->getIndex()+1);
-                        return *this;
-                    }
+                    //     // Increment the index
+                    //     this->setIndex(this->getIndex()+1);
+                    //     return *this;
+                    // }
+                    AscendingIterator& operator++() override;
             };
 
 
@@ -227,57 +232,62 @@ namespace ariel{
                 public:
 
                     //defualt constructor
-                    SideCrossIterator(MagicalContainer& container) : FatherIterator(container){
+                    // SideCrossIterator(MagicalContainer& container) : FatherIterator(container){
 
-                    }
+                    // }
+                    SideCrossIterator(MagicalContainer& container);
 
                     // Return a new iterator at the beginning
-                    SideCrossIterator& begin() override{
-                        this->SetMove_from_start(true);
-                        this->setIndex(0);
-                        return *this;
+                    // SideCrossIterator& begin() override{
+                    //     this->SetMove_from_start(true);
+                    //     this->setIndex(0);
+                    //     return *this;
 
-                    }
+                    // }
+                    SideCrossIterator& begin() override;
 
                     // Return an iterator that point to the end of the container (one past the last element)
-                    SideCrossIterator& end() override{
-                        this->setIndex(this->getContainerItr().getContainer().size());
-                        this->SetMove_from_start(false);
-                        return *this;
-                    }
+                    // SideCrossIterator& end() override{
+                    //     this->setIndex(this->getContainerItr().getContainer().size());
+                    //     this->SetMove_from_start(false);
+                    //     return *this;
+                    // }
+                    SideCrossIterator& end() override;
 
 
-                   int& operator*() override{
+                //    int& operator*() override{
 
-                        if (this->getMove_from_start()) {
-                            return this->getContainerItr().getContainer()[this->getIndex()];
-                        }
+                //         if (this->getMove_from_start()) {
+                //             return this->getContainerItr().getContainer()[this->getIndex()];
+                //         }
                         
-                        return this->getContainerItr().getContainer()[this->getContainerItr().getContainer().size() - this->getIndex()];
+                //         return this->getContainerItr().getContainer()[this->getContainerItr().getContainer().size() - this->getIndex()];
                         
                         
-                    }
+                //     }
+                    int& operator*() override;
 
 
-                    SideCrossIterator& operator++() override{
+                    // SideCrossIterator& operator++() override{
 
-                        if (this->getIndex() == this->getContainerItr().getContainer().size()) {
-                            throw std::runtime_error("Iterator already at end index");
-                        }
-                        if (this->getMove_from_start()) {
-                            this->SetMove_from_start(false);
-                            if (this->getIndex() == this->getContainerItr().getContainer().size()/2){
-                                this->setIndex(this->getContainerItr().getContainer().size());
-                            }else{
-                                this->setIndex(this->getIndex() + 1);
-                            }
-                        } else {
-                            this->SetMove_from_start(true);
-                        }
+                    //     if (this->getIndex() == this->getContainerItr().getContainer().size()) {
+                    //         throw std::runtime_error("Iterator already at end index");
+                    //     }
+                    //     if (this->getMove_from_start()) {
+                    //         this->SetMove_from_start(false);
+                    //         if (this->getIndex() == this->getContainerItr().getContainer().size()/2){
+                    //             this->setIndex(this->getContainerItr().getContainer().size());
+                    //         }else{
+                    //             this->setIndex(this->getIndex() + 1);
+                    //         }
+                    //     } else {
+                    //         this->SetMove_from_start(true);
+                    //     }
 
-                        return *this;
+                    //     return *this;
 
-                    }
+                    // }
+                    SideCrossIterator& operator++() override;
                     
             };
 
@@ -287,38 +297,43 @@ namespace ariel{
                 public:
 
                     //defualt constructor
-                    PrimeIterator(MagicalContainer& container) : FatherIterator(container){
+                    // PrimeIterator(MagicalContainer& container) : FatherIterator(container){
                         
-                    }
+                    // }
+                    PrimeIterator(MagicalContainer& container);
 
                     // Return a new iterator at the beginning
-                    PrimeIterator& begin() override{
-                        this->setIndex(0);
-                        return *this;
-                    }
+                    // PrimeIterator& begin() override{
+                    //     this->setIndex(0);
+                    //     return *this;
+                    // }
+                    PrimeIterator& begin() override;
 
                     // Return an iterator that point to the end of the container (one past the last element)
-                    PrimeIterator& end() override{
-                        this->setIndex(this->getContainerItr().getPrimeContainer().size());
-                        return *this;
-                    }
+                    // PrimeIterator& end() override{
+                    //     this->setIndex(this->getContainerItr().getPrimeContainer().size());
+                    //     return *this;
+                    // }
+                    PrimeIterator& end() override;
 
 
-                    int& operator*() override{
+                    // int& operator*() override{
     
-                        return *(this->getContainerItr().getPrimeContainer()[this->getIndex()]);
-                    }
+                    //     return *(this->getContainerItr().getPrimeContainer()[this->getIndex()]);
+                    // }
+                    int& operator*() override;
 
 
-                    PrimeIterator& operator++() override{
+                    // PrimeIterator& operator++() override{
                         
-                        if( this->getIndex() == this->getContainerItr().getPrimeContainer().size()){
-                             throw std::runtime_error("++ error: iterator already at end index");
-                        }
+                    //     if( this->getIndex() == this->getContainerItr().getPrimeContainer().size()){
+                    //          throw std::runtime_error("++ error: iterator already at end index");
+                    //     }
 
-                        this->setIndex(this->getIndex()+1);
-                        return *this;
-                    }
+                    //     this->setIndex(this->getIndex()+1);
+                    //     return *this;
+                    // }
+                    PrimeIterator& operator++() override;
             };
 
     };

@@ -40,9 +40,9 @@ int main() {
 
     // Remove an element from the container and display the size
     container.removeElement(9);
-    container.removeElement(3);
     std::cout << "Size of container after removing an element: " << container.size() << std::endl;
 
+    container.removeElement(3);
 
     // Use AscendingIterator to display elements in ascending order
     std::cout << "Elements in ascending order:\n";
@@ -64,6 +64,8 @@ int main() {
         std::cout << *it << ' ';  // 2 3 17 
     }
     std::cout << std::endl;
+
+    std::cout << "Size of container after removing an 2 elements: " << container.size() << std::endl;
 
     return 0;
 }
