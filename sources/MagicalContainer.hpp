@@ -19,9 +19,6 @@ namespace ariel{
             //defult constructor
             MagicalContainer() = default;
 
-            // // copy constructor
-            // MagicalContainer(const MagicalContainer& other) = default;
-
             vector<int>& getContainer(){
                 return container;
             }
@@ -46,30 +43,6 @@ namespace ariel{
             bool operator==(const MagicalContainer& other) const {
                 return container == other.container && prime_container == other.prime_container;
             }
-
-            // // destructor
-            // ~MagicalContainer(){}
-
-            // // Copy assignment operator
-            // MagicalContainer& operator=(const MagicalContainer& other) {
-            //     if (this != &other) {
-            //         // Perform deep copy of the container
-            //         container = other.container;
-            //     }
-            //     return *this;
-            // }
-
-            // // Move constructor
-            // MagicalContainer(MagicalContainer&& other) noexcept = default;
-
-            // // Move assignment operator
-            // MagicalContainer& operator=(MagicalContainer&& other) noexcept {
-            //     if (this != &other) {
-            //         // Move the container from the other object
-            //         container = std::move(other.container);
-            //     }
-            //     return *this;
-            // }
 
             
         private:

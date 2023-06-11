@@ -14,7 +14,7 @@ namespace ariel{
             return;
         }
 
-        container.insert(iter,element);
+        iter = container.insert(iter,element);
         update_prime_container();
     }
 
@@ -138,15 +138,15 @@ namespace ariel{
         if (this->getIndex() == containerSize) {
             throw std::runtime_error("Iterator already at end index");
         }
-
+        //checking if container size is odd
         if (containerSize % 2 != 0) {
-            if (this->getMove_from_start()) {
+            if (this->getMove_from_start()) {  //checking if we on the left size
                 this->SetMove_from_start(false);
                 (this->getIndex() == containerSize / 2) ? this->setIndex(containerSize) : this->setIndex(this->getIndex() + 1);
-            } else {
+            } else { // we on the right size
                 this->SetMove_from_start(true);
             }
-        } else {
+        } else {  //container size is even
             if (this->getMove_from_start()) {
                 this->SetMove_from_start(false);
                 this->setIndex(this->getIndex() + 1);
@@ -168,7 +168,7 @@ namespace ariel{
                         
     }
 
-    // Return a new iterator at the beginning
+    // Return a new iterator at the beginning(index at 0)
     MagicalContainer::PrimeIterator& MagicalContainer::PrimeIterator::begin(){
         this->setIndex(0);
         return *this;
@@ -190,7 +190,7 @@ namespace ariel{
         if( this->getIndex() == this->getContainerItr().getPrimeContainer().size()){
                 throw std::runtime_error("++ error: iterator already at end index");
         }
-
+        //increment the index by 1
         this->setIndex(this->getIndex()+1);
         return *this;
     }
